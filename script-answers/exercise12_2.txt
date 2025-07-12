@@ -1,0 +1,19 @@
+Script started on Sat Jul 12 19:46:03 2025
+Restored session: Sat Jul 12 19:42:28 IST 2025
+ajaysah@Ajays-MacBook-Air ~ % docker run -it ubuntu bash
+Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+3eff7d219313: Pull complete 
+Digest: sha256:440dcf6a5640b2ae5c77724e68787a906afb8ddee98bf86db94eea8528c2c076
+Status: Downloaded newer image for ubuntu:latest
+root@b312146bb8d6:/# mkdir /usr/src/app
+root@b312146bb8d6:/# touch /usr/src/app/index.js
+root@b312146bb8d6:/# exit
+exit
+ajaysah@Ajays-MacBook-Air ~ % exit
+
+Saving session...
+...saving history...truncating history files...
+...completed.
+
+Script done on Sat Jul 12 19:56:19 2025
