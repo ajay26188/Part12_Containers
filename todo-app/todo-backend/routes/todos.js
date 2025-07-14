@@ -8,12 +8,15 @@ router.get('/', async (_, res) => {
   res.send(todos);
 });
 
+let todoCounter = {value: 0};
+
 /* POST todo to listing. */
 router.post('/', async (req, res) => {
   const todo = await Todo.create({
     text: req.body.text,
     done: false
   })
+  todoCounter.value++;
   res.send(todo);
 });
 
@@ -53,4 +56,7 @@ singleRouter.put('/', async (req, res) => {
 router.use('/:id', findByIdMiddleware, singleRouter)
 
 
-module.exports = router;
+module.exports = {
+  todosRouter: router,
+  todoCounter
+};
