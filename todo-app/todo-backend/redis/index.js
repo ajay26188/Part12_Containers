@@ -22,6 +22,6 @@ if (!REDIS_URL) {
 }
 
 module.exports = {
-  getAsync,
+  getAsync, 
   setAsync
 }
