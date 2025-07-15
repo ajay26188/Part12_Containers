@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react'
-import axios from '../util/apiClient'
+import apiClient from '../util/apiClient'
 
 import List from './List'
 import Form from './Form'
+import { useMatch } from 'react-router-dom'
+import Todo from './Todo'
 
 const TodoView = () => {
   const [todos, setTodos] = useState([])
 
   const refreshTodos = async () => {
-    const { data } = await axios.get('/todos')
+    const { data } = await apiClient.get('/todos')
     setTodos(data)
   }
 
@@ -17,21 +19,32 @@ const TodoView = () => {
   }, [])
 
   const createTodo = async (todo) => {
-    const { data } = await axios.post('/todos', todo)
+    const { data } = await apiClient.post('/todos', todo)
     setTodos([...todos, data])
   }
 
   const deleteTodo = async (todo) => {
-    await axios.delete(`/todos/${todo._id}`)
+    await apiClient.delete(`/todos/${todo._id}`)
     refreshTodos()
   }
 
   const completeTodo = async (todo) => {
-    await axios.put(`/todos/${todo._id}`, {
+    await apiClient.put(`/todos/${todo._id}`, {
       text: todo.text,
       done: true
     })
     refreshTodos()
+  }
+
+  const match = useMatch('/todos/:id');
+  if (match && todos.length !== 0) {
+    const id = match.params.id;
+    const todo = todos.find(todo => todo._id === id);
+    return (
+      <div>
+        <Todo todo={todo} deleteTodo={deleteTodo} completeTodo={completeTodo} />
+      </div>
+    )
   }
 
   return (
