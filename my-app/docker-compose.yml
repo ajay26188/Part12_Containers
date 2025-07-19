@@ -1,0 +1,28 @@
+services:
+  app:
+    image: phonebook-frontend-prod
+    build:
+      context: ./client # The context will pick this directory as the "build context"
+      dockerfile: Dockerfile # This will simply tell which dockerfile to read
+    container_name: phonebook-frontend-prod # This will name the container
+
+  server:
+    build:
+      context: ./server           
+      dockerfile: Dockerfile
+    image: phonebook-backend-prod
+    env_file:
+      - ./server/.env
+    container_name: phonebook-backend-prod
+    
+
+  nginx:
+    image: nginx:1.20.1
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: reverse-proxy-phonebook-prod
+    depends_on:
+      - app
+      - server
