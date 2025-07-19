@@ -1,0 +1,29 @@
+services:
+  app:
+    image: phonebook-frontend-dev
+    build:
+      context: ./client # The context will pick this directory as the "build context"
+      dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
+    volumes:
+      - ./client:/usr/src/app # The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
+    container_name: phonebook-frontend-dev # This will name the container hello-front-dev
+
+  server:
+    build:
+      context: ./server           
+      dockerfile: dev.Dockerfile
+    image: phonebook-backend-dev
+    env_file:
+      - ./server/.env
+    container_name: phonebook-backend-dev
+
+  nginx:
+    image: nginx:1.20.1
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: reverse-proxy-phonebook-dev
+    depends_on:
+      - app # wait for the frontend container to be started
+      - server
